@@ -4,6 +4,7 @@
 
 See:
 https://github.com/2sic/dnn-theme-2shine-bs5
+
 https://2shine.org/
 
 This document explains the MVC skin version in this theme, how it maps to the ASCX version, and what to keep in sync when maintaining both.
