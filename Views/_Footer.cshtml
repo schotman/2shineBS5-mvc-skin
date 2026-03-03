@@ -1,0 +1,21 @@
+@using DotNetNuke.Common
+@using DotNetNuke.Entities.Portals
+@using DotNetNuke.Web.MvcPipeline.Models
+@using DotNetNuke.Web.MvcPipeline.Skins
+@model PageModel
+@{
+    var portalSettings = PortalSettings.Current;
+}
+<footer id="theme-page-footer" class="footer">
+    <div class="container py-4 d-flex justify-content-md-between flex-column flex-md-row text-white">
+        <div class="theme-footer-address d-flex flex-column flex-xl-row">
+            @Html.Copyright(cssClass: "theme-page-login copyright")
+        </div>
+        <div class="theme-footer-imprint">
+            @Html.User(cssClass: "user")  
+            @Html.Login(cssClass: "login")  
+            @Html.Terms(cssClass: "terms") 
+            @Html.Privacy(cssClass: "privacy")
+        </div>
+    </div>
+</footer>

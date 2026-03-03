@@ -1,0 +1,24 @@
+<%@ Register TagPrefix="dnn" TagName="LOGIN" Src="~/Admin/Skins/Login.ascx" %>
+<%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.DDRMenu.TemplateEngine" Assembly="DotNetNuke.Web.DDRMenu" %>
+<%@ Register TagPrefix="dnn" TagName="MENU" src="~/DesktopModules/DDRMenu/Menu.ascx" %>
+<%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.Client.ClientResourceManagement" Assembly="DotNetNuke.Web.Client" %>
+<%@ Register TagPrefix="ToSic" TagName="LanguageNavigation" src="LanguageNavigation.ascx" %>
+<%@ Register TagPrefix="ToSic" TagName="BreadcrumbNavigation" Src="Breadcrumb.ascx" %>
+<%@ Register TagPrefix="dnn" TagName="LOGO" Src="~/Admin/Skins/Logo.ascx" %>
+<%@ Register TagPrefix="dnn" TagName="COPYRIGHT" Src="~/Admin/Skins/Copyright.ascx" %>
+<%@ Register TagPrefix="dnn" TagName="PRIVACY" Src="~/Admin/Skins/Privacy.ascx" %>
+<%@ Register TagPrefix="dnn" TagName="TERMS" Src="~/Admin/Skins/Terms.ascx" %>
+<%@ Register TagPrefix="dnn" TagName="USER" Src="~/Admin/Skins/user.ascx" %>
+
+<%-- Change the page title to contain the breadcrumbi in an SEO optimized way --%>
+<%@ Register TagPrefix="tosic" TagName="PageTitle" src="optimize-page-title.ascx" %>
+<tosic:PageTitle runat="server" />
+
+<%-- Activate Quick-Edit in empty pages if 2sxc is installed
+  more infos on 2sxc quick-edit: https://2sxc.org/en/blog/post/quick-edit-2-add-move-delete-modules-in-preview-touch-capable-for-dnn
+--%>
+<%@ Register TagPrefix="tosic" TagName="SxcQuickEdit" src="2sxc-quickedit.ascx" %>
+<tosic:SxcQuickEdit runat="server" />
+
+<%@ Import Namespace="DotNetNuke.Security.Permissions" %>
+<%@ Import Namespace="TabInfo=DotNetNuke.Entities.Tabs.TabInfo" %>

@@ -1,0 +1,30 @@
+/*********************************************/
+/*  _layout-fullscreen.scss                  */
+/*-------------------------------------------*/
+/*           This file is part of:           */
+/*                 2ShineBS5                 */
+/*            https://2shine.org/            */
+/*-------------------------------------------*/
+/*  This file defines and customizes         */
+/*  styles for fullscreen.                   */
+/*********************************************/
+
+/*layout fullscreen*/
+html {
+  body.theme-variation-fullscreen {
+
+    main#theme-page-main {
+      background-color: var(--theme-page-main-bg);
+    }
+    
+    #theme-page-header-pane {
+      max-width: 100%;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    footer#theme-page-footer {
+      background-color: var(--theme-footer-bg);
+    }
+  }
+}

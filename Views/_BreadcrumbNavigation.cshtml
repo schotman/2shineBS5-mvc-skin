@@ -1,0 +1,72 @@
+@using System.Collections.Generic
+@using DotNetNuke.Common
+@using DotNetNuke.Entities.Portals
+@using DotNetNuke.Entities.Tabs
+@using DotNetNuke.Services.Localization
+@{
+    var portalSettings = PortalSettings.Current;
+    var tabId = portalSettings?.ActiveTab?.TabID ?? -1;
+    var portalId = portalSettings?.PortalId ?? -1;
+    var tabController = new TabController();
+    var currentTab = (tabId > -1 && portalId > -1) ? tabController.GetTab(tabId, portalId, false) : null;
+    var breadcrumbTabs = new List<TabInfo>();
+
+    while (currentTab != null)
+    {
+        breadcrumbTabs.Insert(0, currentTab);
+        currentTab = currentTab.ParentId > 0 ? tabController.GetTab(currentTab.ParentId, portalId, false) : null;
+    }
+
+    var resourcePath = (portalSettings?.ActiveTab?.SkinPath ?? string.Empty) + "App_LocalResources/2shine.resx";
+    var homeText = Localization.GetString("Home.Text", resourcePath) ?? "Home";
+}
+
+<div class="theme-page-breadcrumb">
+    <div class="container py-1">
+        <nav style="--bs-breadcrumb-divider: '›';" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0" itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li class="breadcrumb-item first" itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" class="breadcrumb-item-home" href="@Globals.NavigateURL(portalSettings?.HomeTabId ?? -1)">
+                        <span itemprop="name">@homeText</span>
+                    </a>
+                    <a href="javascript:void(0)" class="breadcrumb-item-trigger">...</a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                @{
+                    var position = 2;
+                    for (var i = 0; i < breadcrumbTabs.Count; i++)
+                    {
+                        var tab = breadcrumbTabs[i];
+                        var cssClass = "breadcrumb-item";
+                        if (i == 0)
+                        {
+                            cssClass += " first";
+                        }
+                        if (i == breadcrumbTabs.Count - 1)
+                        {
+                            cssClass += " last";
+                        }
+                        if (tab.TabID == tabId)
+                        {
+                            cssClass += " active";
+                        }
+                        <li class="@cssClass" itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem">
+                            @if (tab.TabID == tabId)
+                            {
+                                <span itemprop="name">@tab.TabName</span>
+                            }
+                            else
+                            {
+                                <a href="@tab.FullUrl" itemprop="item">
+                                    <span itemprop="name">@tab.TabName</span>
+                                </a>
+                            }
+                            <meta itemprop="position" content="@position" />
+                        </li>
+                        position++;
+                    }
+                }
+            </ol>
+        </nav>
+    </div>
+</div>

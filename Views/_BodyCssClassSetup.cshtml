@@ -1,0 +1,81 @@
+@using System.Collections.Generic
+@using System.Linq
+@using System.Threading
+@using DotNetNuke.Entities.Portals
+@using DotNetNuke.Entities.Tabs
+@using DotNetNuke.Security
+@model System.Tuple<string, string>
+@{
+    var layoutName = Model?.Item1 ?? "Default";
+    var navigationName = Model?.Item2 ?? "Right";
+
+    var portalSettings = PortalSettings.Current;
+    var activeTab = portalSettings?.ActiveTab;
+    var bodyClassTokens = new List<string> { "bs2021", "theme-render-mvc", "d-flex", "flex-column", "h-100" };
+
+    if (activeTab != null)
+    {
+        bodyClassTokens.Add("page-" + activeTab.TabID);
+        if (activeTab.ParentId > -1)
+        {
+            bodyClassTokens.Add("page-parent-" + activeTab.ParentId);
+        }
+
+        if (portalSettings != null && portalSettings.HomeTabId == activeTab.TabID)
+        {
+            bodyClassTokens.Add("page-is-home");
+        }
+
+        bodyClassTokens.Add("nav-level-" + (activeTab.Level + 1));
+    }
+
+    var currentLanguage = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLowerInvariant();
+    TabInfo rootTab = null;
+    if (activeTab?.BreadCrumbs != null && activeTab.BreadCrumbs.Count > 0)
+    {
+        rootTab = activeTab.BreadCrumbs[0] as TabInfo;
+    }
+
+    rootTab = rootTab ?? activeTab;
+    var neutralRootTab = (rootTab == null || rootTab.IsDefaultLanguage || rootTab.IsNeutralCulture)
+        ? rootTab
+        : (rootTab.DefaultLanguageTab ?? rootTab);
+
+    var rootLanguage = string.IsNullOrEmpty(rootTab?.CultureCode)
+        ? currentLanguage
+        : rootTab.CultureCode.ToLowerInvariant().Substring(0, 2);
+    var neutralLanguage = string.IsNullOrEmpty(neutralRootTab?.CultureCode)
+        ? currentLanguage
+        : neutralRootTab.CultureCode.ToLowerInvariant().Substring(0, 2);
+
+    bodyClassTokens.Add("lang-" + currentLanguage);
+    bodyClassTokens.Add("lang-root-" + rootLanguage);
+    bodyClassTokens.Add("lang-neutral-" + neutralLanguage);
+
+    if (portalSettings != null)
+    {
+        bodyClassTokens.Add("site-" + portalSettings.PortalId);
+    }
+
+    if (rootTab != null)
+    {
+        bodyClassTokens.Add("page-root-" + rootTab.TabID);
+    }
+
+    if (neutralRootTab != null)
+    {
+        bodyClassTokens.Add("page-root-neutral-" + neutralRootTab.TabID);
+    }
+
+    bodyClassTokens.Add("theme-variation-" + layoutName.ToLowerInvariant());
+    bodyClassTokens.Add("theme-mainnav-variation-" + navigationName.ToLowerInvariant());
+
+    if (portalSettings != null && PortalSecurity.IsInRoles(portalSettings.AdministratorRoleName))
+    {
+        bodyClassTokens.Add("role-admin");
+    }
+
+    ViewBag.BodyDataBsTheme = "default-theme";
+    var bodyCssClass = string.Join(" ", bodyClassTokens.Where(c => !string.IsNullOrWhiteSpace(c)));
+}
+@bodyCssClass

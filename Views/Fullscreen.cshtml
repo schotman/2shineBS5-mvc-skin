@@ -1,0 +1,54 @@
+@using System.Linq
+@using DotNetNuke.Common
+@using DotNetNuke.Entities.Portals
+@using DotNetNuke.Entities.Tabs
+@using DotNetNuke.Security
+@using DotNetNuke.Security.Permissions
+@using DotNetNuke.Web.MvcPipeline.Models
+@using DotNetNuke.Web.MvcPipeline.Skins
+@using DotNetNuke.Web.DDRMenu
+@model PageModel
+
+@{
+    const bool showSidebarNavigation = false;
+    const bool showBreadcrumb = true;
+    const string navNodeSelector = "*,0,1";
+    const string layoutName = "Fullscreen";
+    const string navigationName = "Right";
+
+    var portalSettings = PortalSettings.Current;
+    var activeTab = portalSettings?.ActiveTab;
+    var hasVisibleChildren = false;
+    if (activeTab != null && activeTab.HasChildren)
+    {
+        hasVisibleChildren = TabController
+            .GetTabsByParent(activeTab.TabID, activeTab.PortalID)
+            .Cast<TabInfo>()
+            .Any(t => t.IsVisible && !t.IsDeleted && TabPermissionController.CanViewPage(t));
+    }
+
+    var renderSidebar = showSidebarNavigation && hasVisibleChildren;
+
+    ViewBag.BodyCssClass = Html.Partial("~" + portalSettings.ActiveTab.SkinPath + "Views/_BodyCssClassSetup.cshtml", System.Tuple.Create(layoutName, navigationName)).ToHtmlString().Trim();
+}
+
+@section head {
+    @Html.Meta(name: "viewport", content: "width=device-width, initial-scale=1, shrink-to-fit=no")
+}
+
+@Html.DnnCssExclude("dnndefault")
+@Html.DnnCssInclude(filePath: "dist/fonts.css", pathNameAlias: "SkinPath", priority: 97)
+@Html.DnnCssInclude(filePath: "theme/theme.css", pathNameAlias: "SkinPath", priority: 98)
+@Html.DnnCssInclude(filePath: "dist/dnn-default.min.css", pathNameAlias: "SkinPath", priority: 99)
+@Html.DnnCssInclude(filePath: "dist/styles.min.css", pathNameAlias: "SkinPath", priority: 100)
+@Html.DnnJsInclude("dist/lib/bootstrap.bundle.min.js", pathNameAlias: "SkinPath", defer: true, priority: 100)
+@Html.DnnJsInclude("dist/scripts.min.js", pathNameAlias: "SkinPath", defer: true, priority: 130)
+
+<div class="theme-layout-@layoutName.ToLowerInvariant() theme-nav-@navigationName.ToLowerInvariant()">
+    <a class="visually-hidden-focusable" rel="nofollow" href="#theme-page-main">Skip to main content</a>
+    @Html.Partial("~" + portalSettings.ActiveTab.SkinPath + "Views/_Header.cshtml", Model, new ViewDataDictionary { { "NavNodeSelector", navNodeSelector } })
+
+    @Html.Partial("~" + portalSettings.ActiveTab.SkinPath + "Views/_MainSection.cshtml", Model, new ViewDataDictionary { { "ShowBreadcrumb", showBreadcrumb }, { "RenderSidebar", renderSidebar } })
+
+    @Html.Partial("~" + portalSettings.ActiveTab.SkinPath + "Views/_Footer.cshtml", Model)
+</div>

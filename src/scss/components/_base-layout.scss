@@ -1,0 +1,94 @@
+/*********************************************/
+/*  _base-layout.scss                        */
+/*-------------------------------------------*/
+/*           This file is part of:           */
+/*                 2ShineBS5                 */
+/*            https://2shine.org/            */
+/*-------------------------------------------*/
+/*  Contains the base layout styles,         */
+/*  including the overall structure of       */
+/*  the page elements like body, footer,     */
+/*  and form adjustments.                    */
+/*********************************************/
+
+
+html {
+  min-height: 100vh;
+
+  body {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    min-height: 100vh;
+    // background-color: var(--theme-backdrop-bg);
+
+    &.theme-render-mvc form#Form {
+      min-height: 0;
+      height: 0;
+    }
+    
+    &::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--theme-backdrop-bg);
+      clear: both;
+      z-index: -1;
+    }
+
+    form#Form,
+    &.theme-render-mvc [class*="theme-layout-"] {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+
+      main#theme-page-main {
+        flex: 1 0 auto;
+      }
+
+      .text-primary {
+        color: var(--bs-primary) !important;
+      }
+  
+      .text-secondary {
+        color: var(--bs-secondary) !important;
+      }
+
+
+
+      footer {
+        background-color: var(--theme-footer-bg);   
+        
+        a {
+          color: var(--bs-link-color);
+
+          &:hover {
+            color: var(--bs-link-hover-color);
+          }
+        }
+
+        ul {
+          padding: 0;
+          list-style: none;
+
+          li {
+            margin-right: 6px;
+          }
+        }
+      }
+
+      .container {
+        @include media-breakpoint-up(xxl) {
+          padding-left: 48px;
+          padding-right: 48px;
+        }
+      }
+      
+      div[id^="module-"] {
+        scroll-margin-top: 150px;
+      }
+    }
+  }
+}

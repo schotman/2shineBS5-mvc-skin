@@ -1,0 +1,45 @@
+@using DotNetNuke.Web.MvcPipeline.Models
+@using DotNetNuke.Web.MvcPipeline.Skins
+@using DotNetNuke.Web.DDRMenu
+@using DotNetNuke.Entities.Portals
+@model PageModel
+@{
+    var showBreadcrumb = ViewData["ShowBreadcrumb"] is bool valueShowBreadcrumb ? valueShowBreadcrumb : true;
+    var renderSidebar = ViewData["RenderSidebar"] is bool valueRenderSidebar ? valueRenderSidebar : false;
+    var skinPath = PortalSettings.Current?.ActiveTab?.SkinPath ?? "Portals/_default/Skins/2shineBS5/";
+}
+<main id="theme-page-main">
+    @if (showBreadcrumb)
+    {
+        <div class="ContentPane Pane Breadcrumb">
+            @Html.Partial("~" + skinPath + "Views/_BreadcrumbNavigation.cshtml")
+        </div>
+    }
+    @if (renderSidebar)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-lg-9 order-lg-2 ly-col-contentpane">@Html.Pane(id: "ContentPane")</div>
+                <div class="col-xs-12 col-lg-3 order-lg-1 ly-col-leftpane">
+                    <div id="theme-nav-sub" class="d-none d-sm-block">@Html.DDRMenu(clientID: "menuSub", menuStyle: "nav/sub", nodeSelector: "+0,0,2")</div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 ly-col-contentpane">@Html.Pane(id: "ContentPane")</div>
+            </div>
+        </div>
+    }
+    <a id="theme-to-top" href="#" title="Nach oben" rel="nofollow" class="d-flex align-items-center justify-content-center rounded-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="19.032" height="20.034" viewBox="0 0 19.032 20.034">
+            <g transform="translate(-1055.984 -551.276)">
+                <path d="M8.1,16.2,0,8.1,8.1,0" transform="translate(1073.602 552.69) rotate(90)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="2" />
+                <line y2="17.599" transform="translate(1065.481 552.711)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="2" />
+            </g>
+        </svg>
+    </a>
+</main>

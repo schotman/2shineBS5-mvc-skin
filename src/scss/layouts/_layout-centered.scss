@@ -1,0 +1,49 @@
+/*********************************************/
+/*  _layout-centered.scss                    */
+/*-------------------------------------------*/
+/*           This file is part of:           */
+/*                 2ShineBS5                 */
+/*            https://2shine.org/            */
+/*-------------------------------------------*/
+/*  This file defines and customizes         */
+/*  styles for centered layout.              */
+/*********************************************/
+
+/*layout centered*/
+body.theme-variation-centered {
+  header {
+    background: transparent;
+
+    .container {
+      background: var(--bs-white);
+    }
+  }
+
+  main#theme-page-main,
+  #theme-page-header-pane,
+  footer#theme-page-footer,
+  nav#theme-page-navigation {      
+    width: 100%;
+    margin: 0 auto;
+
+    @include media-breakpoint-up(xxl) {
+      max-width: 1320px;
+    }
+  }   
+
+  main#theme-page-main {
+    background: var(--theme-page-main-bg);
+  }
+
+  #theme-page-header-pane {
+    background-color: var(--theme-nav-bg);
+  }    
+
+  nav#theme-page-navigation {
+    background-color: var(--theme-nav-bg);
+  }
+
+  footer#theme-page-footer {
+    background-color: var(--theme-footer-bg);
+  }
+}

@@ -1,0 +1,27 @@
+/*********************************************/
+/*  _layout-landingpage.scss                 */
+/*-------------------------------------------*/
+/*           This file is part of:           */
+/*                 2ShineBS5                 */
+/*            https://2shine.org/            */
+/*-------------------------------------------*/
+/*  This file contains layout styles         */
+/*  specifically for the landing page.       */
+/*********************************************/
+
+/*layout full*/
+body.theme-variation-landingpage {
+  background: var(--theme-page-main-bg);
+  
+  nav#theme-page-navigation {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 100%);
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+  }
+
+  .theme-background-container {
+    overflow: hidden;
+  }
+}
