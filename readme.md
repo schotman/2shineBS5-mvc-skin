@@ -1,132 +1,101 @@
-<img width="100%" src="https://github.com/2sic/dnn-theme-2shine-bs5/raw/main/images/logo-1000.png">
-
-# DNN Skin/Theme Bootstrap5 Instant! for DNN 7, 8, 9 (works best with 9.6+)
-
-_Note: two links in the footer go to pages in dnn 9.6, which uses a 9.6 api. if you remove them, it also works in v7/8_
-
-A clean, prepared bootstrap5 skin for DNN (DotNetNuke), ready to make awesomeness - ideally combined with bootstrap content-templates.
-
-1. This theme needs the [2Shine BS5 Container](https://github.com/2sic/dnn-container-2shine-bs5) to work, but this gets installed automatically for you when you install the theme with the installer.
-1. Check out other DNN Bootstrap Skins like:
-    1. [DNN Bootstrap3 Single Pager](https://github.com/2sic/dnn-theme-bootstrap3-single-pager)
-    1. [DNN Bootstrap4 Instant](https://github.com/2sic/dnn-theme-bootstrap4-instant)
-    1. [DNN Bootster Bootstrap 4](http://www.dnnbootster.com/)
-    1. [nvQuickTheme Bootstrap 4](http://www.nvquicktheme.com/)
-1. And it's awesome together with professional content-templates like
-    1. [Standard Content Blocks/Templates](https://github.com/2sic/2sxc-content-app)
-
-# The Bootstrap5 Instant Theme for DNN
-
-This theme is a layout/skin for the CMS [DNN](https://github.com/dnnsoftware/Dnn.Platform) based on [Bootstrap5](http://getbootstrap.com/) and [SASS](http://sass-lang.com/). It allows you to create simple custom designs within minutes and complex designs within a few hours. This is why it's called *instant*.
-
-## What's in the Package
-
-1. A clean, best-practices, responsive Bootstrap 5 Skin / Theme
-1. ...based on SASS, with a set of variables-files to customize layouts in minutes
-1. An e-mail encryptor to encrypt mail addresses in the layout
-1. A SEO-title optimizer
-2. An automatic svg integration for responsive logos
-3. Layout footer implementing SEO microformats
-4. NPM for all dependencies
-5. Webpack to process the sass/typescript into the resulting CSS/Javascript
-
-## Layouts
-
-1. Default - Floating content on background, full-width sticky-header
-2. Fullscreen - Modules can use the full width to set backgrounds
-3. Centered - Content and Menu are max-width, background to right and left
-4. Centered-Submenu - Paged/floating content with submenu to the left
-5. Float-WideHeader - Paged/floating content with wide header
 
 
-## Dokumentation
+# This is a custom MVC version of 2shine skin from 2sic.
 
-For a detailed documentation go [here](https://www.2shine.org/)
-<!---
-## Theme Installation (move to docs)
+See:
+https://github.com/2sic/dnn-theme-2shine-bs5
+https://2shine.org/
 
-There are three ways to install the initial package
+This document explains the MVC skin version in this theme, how it maps to the ASCX version, and what to keep in sync when maintaining both.
 
-1. [By downloading the _package_ and installing it through the web UI of DNN](https://azing.org/dnn-community/r/jRA6BIxn)
-2. [By using `git clone` to create a copy of this repository in your _Skins_ folder](https://azing.org/dnn-community/r/dV0_C3yY)
-3. [By downloading the zip and manually copying it to the _Skins_ folder](https://azing.org/dnn-community/r/0DIROnG-)
+## Overview
 
-You can read more about this [here](https://azing.org/dnn-community/r/xmvM_gD7).
+This skin includes two implementation styles:
 
-## Customize and Redesign everything within Minutes (move to docs)
+1. ASCX skin files (`*.ascx`) and shared controls in `controls/`
+2. MVC skin files (`Views/*.cshtml`) with partials and MVC helpers
 
-You can now quickly customize and redesign everything within minutes. Check out the instructions [here](https://azing.org/2sxc/r/TIvm7V0H).
--->
-## Creating Awesome Designed Content (move to docs)
+Both versions are intended to render the same layout variants and user experience wherever possible.
 
-You now have created the layout within minutes or hours, but you're still missing the perfectly designed inner pieces, like tile-lists, content-accordeons, galleries, sliders, blogs and more. Fortunately these are both super-easy to add and use the same mechanisms for design. They can even re-use the variables of your skin, to automatically match look and feel :)
+## ASCX to MVC Mapping
 
-To get the awesome designed content, install [2sxc](https://github.com/2sic/2sxc/releases) and the default Bootstrap 5 content-templates.
+### Layout files
 
-## History
+1. `default.ascx` -> `Views/default.cshtml`
+2. `Centered.ascx` -> `Views/Centered.cshtml`
+3. `Centered-Submenu.ascx` -> `Views/Centered-Submenu.cshtml`
+4. `Fullscreen.ascx` -> `Views/Fullscreen.cshtml`
+5. `Float-HeaderWide.ascx` -> `Views/Float-HeaderWide.cshtml`
+6. `popUpSkin.ascx` -> `Views/PopUpSkin.cshtml`
 
-### v05.04.00
+### Shared structure
 
-1. Switched from webpack to rollup
-1. Updated for DNN 10 compatibility
-1. Updated NPM packages
-1. added BS accordion to styles
-1. fixed breadcrumb multilanguage issue
+1. `controls/theme-body.ascx` -> split into:
+   1. `Views/_Header.cshtml`
+   2. `Views/_MainSection.cshtml`
+   3. `Views/_Footer.cshtml`
+2. `controls/Breadcrumb.ascx` -> `Views/_BreadcrumbNavigation.cshtml`
+3. `controls/body-css-classes.ascx` -> `Views/_BodyCssClassSetup.cshtml`
+4. `controls/LanguageNavigation.ascx` -> `@Html.Language()` in `Views/_Header.cshtml`
+5. `controls/register.ascx` -> no 1:1 MVC file (registration concerns are handled by MVC helpers/partials)
 
-### v05.03.06
+## Parity Expectations
 
-1. Rebranded 2Shine with new colors and logo  
-1. Introduced a new comment convention for better accessibility  
-1. Made minor changes to the overall code structure  
-1. Refactored the Components folder and moved files to the new Utils folder
+These areas should generally stay aligned between ASCX and MVC:
 
-### v05.03.05
+1. Layout structure and CSS class conventions
+2. Pane placement and naming intent
+3. Navigation behavior and breadcrumb visibility rules
+4. Footer content and utility links
+5. Resource include order (`fonts`, `theme.css`, `dnn-default`, main styles and scripts)
 
-1. improved CSS Variables
-1. bugfixes
-1. added bootstrap components
-1. clean up
+## Known Differences
 
-### v05.03.04
+Current known differences to be aware of:
 
-1. Improvement of CSS variables
-1. Refactoring
+1. Sidebar rendering in `Centered-Submenu`:
+   1. ASCX only renders sidebar when child pages are available.
+   2. MVC currently sets `renderSidebar = showSidebarNavigation` (the `hasVisibleChildren` condition is not active).
+2. Header pane empty-state class:
+   1. ASCX can add `theme-header-pane-empty`.
+   2. MVC `_Header.cshtml` does not currently add this class.
+3. Language switcher implementation:
+   1. ASCX uses `controls/LanguageNavigation.ascx` custom filtering logic.
+   2. MVC uses `@Html.Language()`.
+4. SEO page title optimization:
+   1. ASCX includes `controls/optimize-page-title.ascx` via `controls/register.ascx`.
+   2. MVC does not include an equivalent helper/partial today.
+5. 2sxc QuickEdit:
+   1. ASCX includes `controls/2sxc-quickedit.ascx` via `controls/register.ascx`.
+   2. MVC does not include an equivalent helper/partial today.
+6. Popup skin rendering details:
+   1. ASCX popup skin is only a pane container.
+   2. MVC popup skin adds an inline body background style and a pane css class.
 
-### v05.03.03
+## Footer Note
 
-1. Uses CSS Variables to customize your style
-1. Updated NPM Packages
+Footer content has been aligned so ASCX mirrors MVC footer intent:
 
-### v05.00.05
+1. Address area now uses the copyright skin object.
+2. Imprint area uses user/login/terms/privacy skin objects.
+3. Hardcoded ASCX footer microformat contact block has been removed in favor of shared behavior.
 
-1. Bootstrap made a big update with many bug fixes and many new features
+## How to Keep Both Versions In Sync
 
-### v05.00.04
+When changing shared UX, update both implementations in the same change set:
 
-1. Added NPM Script to copy node_modules bootstrap and update bootstrap files in lib folder
-1. Refactoring
-1. w3c
-1. folder renaming
-1. bugfixes
+1. If layout wiring changes:
+   1. update the corresponding root `*.ascx` file
+   2. update the matching `Views/*.cshtml` layout
+2. If header/main/footer markup changes:
+   1. update `controls/theme-body.ascx`
+   2. update the corresponding MVC partial(s)
+3. If behavior logic changes (sidebar conditions, breadcrumb rules, language behavior):
+   1. update ASCX code-behind/script block logic
+   2. update equivalent MVC view logic
+4. If DNN skin object output changes in ASCX:
+   1. verify CSS impacts for `.Normal` and related classes
+   2. keep MVC helper output styling consistent
 
-### v05.00.03
 
-1. Cleaned up resource files as they were all the same
-1. Enhanced lookup of file name to not repeat unnecessarily
-1. Slimmed down resx files to the necessary minimum
-1. Added boolean to determin if Breadcrumbs should be displayed 
-1. Added boolean to determin how many nodes should be selected for the desktop navigation (disables Dropdown if "*,0,0" is set)
 
-### v5.00.02
-
-1. removed node-sass, added sass
-2. removed unnecessary packages
-3. fixed :visited link style in navigation
-4. Renamed body classes 
-   1. tab -> page
-   2. portal -> site
-   3. tab-level -> nav-level
-
-## Love from Switzerland
-
-Daniel & Tom
